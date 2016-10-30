@@ -1,6 +1,7 @@
+# {{ ansible_managed }}
 service {{ item.name }}-{{ item.listen_port }}
 {
-        type = UNLISTED
+        type            = UNLISTED
         disable         = {{ item.disable | default('no')}}
         socket_type     = {{ item.socket_type | default('stream')}}
         protocol        = {{ item.protocol }}
