@@ -1,2 +1,45 @@
 ---
-# tasks file for ansible-xinetd-proxy
+- name: Include Debian specific tasks
+  include: Debian.yml
+  when: ansible_os_family == 'Debian'
+  
+- name: Include Red Hat specific tasks
+  include: RedHat.yml
+  when: ansible_os_family == 'Redhat'
+
+- name: Check for unsupported target operating system
+  fail:
+    msg: "The operating system of the target machine ({{ inventory_hostname }}) is not currently supported."
+  when: xinetd_supported_os is not defined
+
+- name: Remove default config files
+  become: true
+  when: xinetd_proxy_cleanup
+  file:
+    path: "{{ xinetd_proxy_config_path }}/{{ item }}"
+    state: absent
+  with_items:
+    - chargen
+    - daytime
+    - discard
+    - echo
+    - time
+    
+- name: Copy over service files
+  become: true
+  template:
+    src: service.j2
+    dest: "/etc/xinetd.d/{{ item.name }}-{{ item.listen_port }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - "{{ xinetd_proxy_services }}"
+  notify: xinetd restart
+  
+- name: Enable xinetd service
+  become: true
+  service:
+    name: xinetd
+    state: started
+    enabled: true
