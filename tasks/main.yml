@@ -29,7 +29,7 @@
   become: true
   template:
     src: service.j2
-    dest: "/etc/xinetd.d/{{ item.name }}-{{ item.listen_port }}"
+    dest: "{{ xinetd_proxy_config_path }}/{{ item.name }}-{{ item.listen_port }}"
     owner: root
     group: root
     mode: 0644
