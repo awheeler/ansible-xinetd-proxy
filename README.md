@@ -18,7 +18,8 @@ If cleanup is set to true the role removes various default services that are inc
 
 To define the services you will need to use a dict called `xinetd_proxy_services`. An example to proxy a connection to your router's admin interface via a VPN is included below:
 
-```xinetd_proxy_services:
+```yaml
+xinetd_proxy_services:
   - name: router
     disable: 'no'
     socket_type: stream
@@ -29,7 +30,8 @@ To define the services you will need to use a dict called `xinetd_proxy_services
     listen_address: "{{ ansible_tun0.ipv4.address }}"
     listen_port: 80
     target_address: "{{ ansible_default_ipv4.gateway }}"
-    target_port: 80```
+    target_port: 80
+```
 
 Dependencies
 ------------
