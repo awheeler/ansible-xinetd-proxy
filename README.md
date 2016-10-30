@@ -1,38 +1,50 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Simple ansible role to install and config xinetd to proxy connections
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Supports Red Hat and Debian based distros
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+1. `xinetd_proxy_config_path` defaults to `/etc/xinetd.d`
+2. `xinetd_proxy_cleanup` defaults to `false`
+
+If cleanup is set to true the role removes various default services that are included in OS packages.
+
+To define the services you will need to use a dict called `xinetd_proxy_services`. An example to proxy a connection to your router's admin interface via a VPN is included below:
+
+`xinetd_proxy_services:
+  - name: router
+    disable: 'no'
+    socket_type: stream
+    protocol: tcp
+    wait: 'no'
+    only_from: "10.0.1.0/16"
+    user: nobody
+    listen_address: "{{ ansible_tun0.ipv4.address }}"
+    listen_port: 80
+    target_address: "{{ ansible_default_ipv4.gateway }}"
+    target_port: 80`
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
 License
 -------
 
-BSD
+GPL3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Tim Fletcher
