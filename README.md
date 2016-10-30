@@ -12,9 +12,17 @@ Role Variables
 --------------
 
 1. `xinetd_proxy_config_path` defaults to `/etc/xinetd.d`
-2. `xinetd_proxy_cleanup` defaults to `false`
+2. `xinetd_proxy_cleanup` defaults to false
 
 If cleanup is set to true the role removes various default services that are included in OS packages.
+
+Dependencies
+------------
+
+None
+
+Example Playbook
+----------------
 
 To define the services you will need to use a dict called `xinetd_proxy_services`. An example to proxy a connection to your router's admin interface via a VPN is included below:
 
@@ -32,14 +40,6 @@ xinetd_proxy_services:
     target_address: "{{ ansible_default_ipv4.gateway }}"
     target_port: 80
 ```
-
-Dependencies
-------------
-
-None
-
-Example Playbook
-----------------
 
 License
 -------
