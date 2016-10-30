@@ -1,0 +1,14 @@
+service {{ item.name }}-{{ item.listen_port }}
+{
+        type = UNLISTED
+        disable         = {{ item.disable | default('no')}}
+        socket_type     = {{ item.socket_type | default('stream')}}
+        protocol        = {{ item.protocol }}
+        wait            = {{ item.wait | default('no')}}
+        only_from       = {{ item.only_from | default('127.0.0.1') }}
+        port            = {{ item.listen_port }}
+        user            = {{ item.user | default('nobody')}}
+        bind            = {{ item.listen_address | default('127.0.0.1')}}
+        redirect        = {{ item.target_address }} {{ item.target_port }}
+}
+
