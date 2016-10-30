@@ -1,2 +1,4 @@
 ---
 # defaults file for ansible-xinetd-proxy
+xinetd_proxy_config_path: /etc/xinetd.d
+xinetd_proxy_cleanup: false
