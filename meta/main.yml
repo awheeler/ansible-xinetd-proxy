@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Tim Fletcher
-  description: 
+  description: Role to install and config xinetd in proxy mode
   company: 
   license: license (GPLv3)
   min_ansible_version: 1.2
