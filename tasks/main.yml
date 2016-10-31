@@ -2,10 +2,12 @@
 - name: Include Debian specific tasks
   include: Debian.yml
   when: ansible_os_family == 'Debian'
+  static: no
   
 - name: Include Red Hat specific tasks
   include: RedHat.yml
   when: ansible_os_family == 'Redhat'
+  static: no
 
 - name: Check for unsupported target operating system
   fail:
